@@ -8,31 +8,26 @@ spring:
 # = Postgres DB configurations
 # ============================
   datasource:
-    platform: postgres
-    url: 'jdbc:postgresql://192.168.8.93:30383/etisalat_users_test'
-    driverClassName: 'org.postgresql.Driver'
-    username: 'admin'
-    password: 'admin'
-    initialization-mode: 'always'
-    continue-on-error: true
+    url: jdbc:h2:~/playstation;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+    platform: h2
+    initialization-mode: always
+    continue-on-error: "true"
   jpa:
-    generate-ddl: false
-    database: POSTGRESQL
-    properties:
-      hibernate:
-        dialect: 'org.hibernate.dialect.PostgreSQLDialect'
-        jdbc:
-          lob:
-            non_contextual_creation: true
-        format_sql: true
-    show-sql: true
+    genrate-ddl: "true"
     hibernate:
       ddl-auto: update
+    show-sql: "true"
   jackson:
-    serialization:
-      fail-on-empty-beans: false
     parser:
-      allow-single-quotes: true
+      allow-single-quotes: "true"
+  h2:
+    console:
+      enabled: "true"
+      settings:
+        web-allow-others: "true"
 
 # =============================================
 # = Logging configurations
