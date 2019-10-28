@@ -1,0 +1,50 @@
+server:
+  port: 8101
+spring:
+  application:
+    name: 'playstation'
+
+# ============================
+# = Postgres DB configurations
+# ============================
+  datasource:
+    platform: postgres
+    url: 'jdbc:postgresql://192.168.8.93:30383/etisalat_users_test'
+    driverClassName: 'org.postgresql.Driver'
+    username: 'admin'
+    password: 'admin'
+    initialization-mode: 'always'
+    continue-on-error: true
+  jpa:
+    generate-ddl: false
+    database: POSTGRESQL
+    properties:
+      hibernate:
+        dialect: 'org.hibernate.dialect.PostgreSQLDialect'
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+    parser:
+      allow-single-quotes: true
+
+# =============================================
+# = Logging configurations
+# =============================================
+logging:
+  level:
+    org:
+      hibernate:
+        stat: info
+        type: info
+    root: info
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{35} - %msg %n'
+  file: 'logs/playstation.log'
+  
