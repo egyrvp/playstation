@@ -5,9 +5,13 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,61 +24,6 @@ public class CommonUtils {
 		throw new IllegalStateException("Utility class");
 	}
 
-	/**
-	 * Helper method to retrieve the messages from the localization file
-	 * 
-	 * @param key    key for the message in the file
-	 * @param lang   locale to be retrieved e.g {en, ar. du}
-	 * @param params one or more parameter to be combined with the retrieved message
-	 *
-	 * @return message as String
-	 * 
-	 **/
-	public static String resourceBundle(String key, Locale lang, Object... params) {
-		ResourceBundle resourceBundle = ResourceBundle.getBundle("i18n/messages", lang);
-		return MessageFormat.format(resourceBundle.getString(key), params);
-	}
-
-	/**
-	 * Helper method to retrieve the messages from the localization file
-	 * 
-	 * @param key  key for the message in the file
-	 * @param lang locale to be retrieved e.g {en, ar. du}
-	 *
-	 * @return message as String
-	 * 
-	 **/
-	public static String resourceBundle(String key, Locale lang) {
-		ResourceBundle resourceBundle = ResourceBundle.getBundle("i18n/messages", lang);
-		return resourceBundle.getString(key);
-	}
-
-	/**
-	 * Helper method to retrieve the messages from the default locale (en)
-	 * 
-	 * @param key key for the message in the file
-	 *
-	 * @return message as String
-	 * 
-	 **/
-	public static String resourceBundle(String key) {
-		ResourceBundle resourceBundle = ResourceBundle.getBundle("i18n/messages", Locale.ENGLISH);
-		return resourceBundle.getString(key);
-	}
-
-	/**
-	 * Helper method to retrieve the messages from the default locale (en)
-	 * 
-	 * @param key    key for the message in the file
-	 * @param params one or more parameter to be combined with the retrieved message
-	 *
-	 * @return message as String
-	 * 
-	 **/
-	public static String resourceBundle(String key, Object... params) {
-		ResourceBundle resourceBundle = ResourceBundle.getBundle("i18n/messages", Locale.ENGLISH);
-		return MessageFormat.format(resourceBundle.getString(key), params);
-	}
 
 	/**
 	 * Helper method to check object is null or not
@@ -149,4 +98,29 @@ public class CommonUtils {
 		}
 		return null;
 	}
+	
+
+	public static boolean validateUsernameMatchesEmailPattern(String userName) {
+
+//		Pattern emailNamePtrn = Pattern
+//				.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+		Pattern emailNamePtrn = Pattern.compile(
+				"(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+		Matcher mtch = emailNamePtrn.matcher(userName);
+		if (mtch.matches()) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean validateMobileNumberMatchesNumbers(String mobileNumber) {
+
+		Pattern mobileNumberPattern = Pattern.compile("^[0-9]\\d{11}$|^[0-9]\\d{11}$");
+		Matcher mtch = mobileNumberPattern.matcher(mobileNumber);
+		if (mtch.matches()) {
+			return true;
+		}
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mobile number must be valid positive number only");
+	}
+
 }

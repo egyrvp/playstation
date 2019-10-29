@@ -1,11 +1,14 @@
 package com.elmagmo3a.java.playstation.util;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Util class to provide date utils methods.
@@ -145,7 +148,7 @@ public class DateUtils {
 		}
 		if (startDate.equals(endDate) || startDate.after(endDate)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-					CommonUtils.resourceBundle(validationErrorMessageKey, params));
+					MessageResolver.resourceBundle(validationErrorMessageKey, params));
 		}
 	}
 

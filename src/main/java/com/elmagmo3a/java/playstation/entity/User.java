@@ -50,9 +50,8 @@ public class User implements Serializable {
 	private Type type;
 
 	@Enumerated(EnumType.STRING)
-	private Status status;
-
-	private String createdBy;
+	@Builder.Default
+	private Status status = Status.ACTIVE;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
