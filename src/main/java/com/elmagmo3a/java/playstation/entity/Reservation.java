@@ -21,14 +21,11 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -36,23 +33,24 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @Entity
-public class Extra implements Serializable {
+public class Reservation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public enum Type {
-		ADMIN, SHIFTER
-	}
-
 	public enum Status {
-		AVAILABLE, NON_AVAILABLE
+		ACTIVE, FINISHED, WAITING, TERMINATED
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
+
+	private String clientName;
+	private Date startDate;
+	private Date endDate;
 	private Float price;
+	private Float paid;
+	private Float actualPaid;
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -60,25 +58,17 @@ public class Extra implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
 	private User createdBy;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JsonBackReference(value = "reservations")
-	@ToString.Exclude
-	private List<Reservation> reservations;
-	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JsonBackReference(value = "archives")
-	@ToString.Exclude
-	private List<Archive> archives;
-	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
-	private User lastUpdatedBy;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastUpdateDate;
-	
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Device.class)
+	private Device device;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "reservationExtras", joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "extra_id", referencedColumnName = "id"))
+	private List<Extra> extras;
+
 	@Builder.Default
 	private Boolean archived = false;
 

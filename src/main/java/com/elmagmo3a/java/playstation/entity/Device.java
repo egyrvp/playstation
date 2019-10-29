@@ -6,9 +6,13 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -50,12 +54,15 @@ public class Device implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
-	private String createdBy;
+	
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+	private User createdBy;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
-	private String lastUpdateBy;
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+	private User lastUpdatedBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdateDate;
