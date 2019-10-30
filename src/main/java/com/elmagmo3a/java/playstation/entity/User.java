@@ -1,7 +1,9 @@
 package com.elmagmo3a.java.playstation.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +31,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @Entity
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
@@ -60,8 +64,33 @@ public class User implements Serializable {
 	private String lastUpdateBy;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdateDate;
-	
+
 	@Builder.Default
 	private Boolean archived = false;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return new HashSet<>();
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return Status.ACTIVE.equals(getStatus());
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return !getArchived();
+	}
 
 }

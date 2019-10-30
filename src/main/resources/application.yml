@@ -42,4 +42,14 @@ logging:
   pattern:
     console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{35} - %msg %n'
   file: 'logs/playstation.log'
-  
+
+
+
+# =============================================
+# = JWT configurations
+# =============================================
+jwt.signing.key.secret: 'mySecret'
+jwt.get.token.uri: '/authenticate'
+jwt.refresh.token.uri: '/refresh'
+jwt.http.request.header: 'Authorization'
+jwt.token.expiration.in.seconds: 604800

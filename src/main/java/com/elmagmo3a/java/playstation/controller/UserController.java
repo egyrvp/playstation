@@ -1,12 +1,12 @@
 
 package com.elmagmo3a.java.playstation.controller;
 
-import java.sql.SQLException;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +25,7 @@ public class UserController {
 	UserService userService;
 
 	@PostMapping()
-	public ResponseEntity createUser(@Valid @RequestBody CreateUserRequest createUserRequest) throws SQLException {
+	public ResponseEntity createUser(@Valid @RequestBody CreateUserRequest createUserRequest, UsernamePasswordAuthenticationToken principal) {
 		return userService.createUser(createUserRequest);
 	}
 

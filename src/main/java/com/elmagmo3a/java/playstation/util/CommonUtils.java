@@ -1,10 +1,7 @@
 package com.elmagmo3a.java.playstation.util;
 
-import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,11 +21,10 @@ public class CommonUtils {
 		throw new IllegalStateException("Utility class");
 	}
 
-
 	/**
 	 * Helper method to check object is null or not
 	 * 
-	 * @param        <T>
+	 * @param <T>
 	 * @param object
 	 * @return isNull boolean
 	 */
@@ -86,31 +82,25 @@ public class CommonUtils {
 	}
 
 	public static String toJson(Object data) {
-		
+
 		ObjectMapper om = new ObjectMapper();
 		if (data != null) {
 			try {
 				return om.writeValueAsString(data);
 			} catch (JsonProcessingException e) {
-				logger.error("Exception while mapping Object {} to String",data, e);
-				e.printStackTrace();
+				logger.error("Exception while mapping Object {} to String", data, e);
+				logger.error(e.toString());
 			}
 		}
 		return null;
 	}
-	
 
 	public static boolean validateUsernameMatchesEmailPattern(String userName) {
 
-//		Pattern emailNamePtrn = Pattern
-//				.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 		Pattern emailNamePtrn = Pattern.compile(
 				"(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
 		Matcher mtch = emailNamePtrn.matcher(userName);
-		if (mtch.matches()) {
-			return true;
-		}
-		return false;
+		return mtch.matches();
 	}
 
 	public static boolean validateMobileNumberMatchesNumbers(String mobileNumber) {
