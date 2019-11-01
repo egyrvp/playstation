@@ -29,5 +29,7 @@ public class CreateUserRequest {
 	private String password;
 	@NotNull(message = MessageKey.VALIDATION_TYPE_NULL_FIELD_MESSAGE)
 	private Type type;
+	@NotNull(message = MessageKey.VALIDATION_TYPE_NULL_FIELD_MESSAGE)
+	private String mobile;
 
 }

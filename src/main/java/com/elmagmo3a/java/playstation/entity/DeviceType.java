@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,26 +26,15 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @Entity
-public class Device implements Serializable {
+public class DeviceType implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	public enum Status {
-		ACTIVE, SUSPENDED, FIXING
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	private Float price;
-	private Float multiPrice;
-
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = DeviceType.class)
-	private DeviceType type;
-
-	@Enumerated(EnumType.STRING)
-	private Status status;
+	private String icon;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
 	private User createdBy;

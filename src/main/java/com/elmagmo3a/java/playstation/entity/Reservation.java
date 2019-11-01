@@ -38,7 +38,7 @@ public class Reservation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum Status {
-		ACTIVE, FINISHED, WAITING, TERMINATED
+		ACTIVE, FINISHED, WAITING, CANCELED
 	}
 
 	@Id

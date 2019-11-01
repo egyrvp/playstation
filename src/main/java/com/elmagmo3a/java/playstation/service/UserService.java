@@ -29,6 +29,7 @@ public class UserService {
 		user.setUsername(createUserRequest.getUsername());
 		user.setPassword(createUserRequest.getPassword());
 		user.setType(createUserRequest.getType());
+		user.setMobile(createUserRequest.getMobile());
 		userRepository.save(user);
 		logger.info(LogTemplate.CREATE_X_END, "User");
 		return new ResponseEntity<>(HttpStatus.OK);

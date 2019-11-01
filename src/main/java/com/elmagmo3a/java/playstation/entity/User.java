@@ -52,6 +52,7 @@ public class User implements Serializable, UserDetails {
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private Type type;
+	private String mobile;
 
 	@Enumerated(EnumType.STRING)
 	@Builder.Default
