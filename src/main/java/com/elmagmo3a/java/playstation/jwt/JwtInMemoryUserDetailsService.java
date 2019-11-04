@@ -17,7 +17,7 @@ public class JwtInMemoryUserDetailsService implements UserDetailsService {
 	@Autowired
 	UserRepository userRepository;
 
-	public UserDetails loadEntityUserByUsernameAndPassword(String username, String password) {
+	public User loadEntityUserByUsernameAndPassword(String username, String password) {
 		Optional<User> findFirst = userRepository.findByUsernameAndPassword(username, password);
 
 		if (!findFirst.isPresent()) {

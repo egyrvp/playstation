@@ -40,6 +40,10 @@ public class JwtTokenUtil implements Serializable {
 		return getClaimFromToken(token, Claims::getIssuedAt);
 	}
 
+	public Long getStoreIdFromToken(String token) {
+		return (Long) getAllClaimsFromToken(token).get("store_id");
+	}
+
 	public Date getExpirationDateFromToken(String token) {
 		return getClaimFromToken(token, Claims::getExpiration);
 	}
@@ -54,17 +58,13 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	private Boolean isTokenExpired(String token) {
-		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(clock.now());
+		final Date expirationDate = getExpirationDateFromToken(token);
+		return expirationDate.before(clock.now());
 	}
 
-	private Boolean ignoreTokenExpiration(String token) {
-		// here you specify tokens, for that the expiration is ignored
-		return false;
-	}
-
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(User userDetails) {
 		Map<String, Object> claims = new HashMap<>();
+		claims.put("store_id", userDetails.getStore().getId());
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
 
@@ -77,7 +77,7 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	public Boolean canTokenBeRefreshed(String token) {
-		return (!isTokenExpired(token) || ignoreTokenExpiration(token));
+		return (!isTokenExpired(token));
 	}
 
 	public String refreshToken(String token) {

@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -51,6 +52,9 @@ public class Reservation implements Serializable {
 	private Float price;
 	private Float paid;
 	private Float actualPaid;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	private Store store;
 
 	@Enumerated(EnumType.STRING)
 	private Status status;

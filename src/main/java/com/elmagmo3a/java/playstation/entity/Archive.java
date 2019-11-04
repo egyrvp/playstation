@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -55,6 +56,9 @@ public class Archive implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
+	@OneToOne(fetch = FetchType.EAGER)
+	private Store store;
+
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
 	private User createdBy;
 
@@ -68,6 +72,5 @@ public class Archive implements Serializable {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "archiveExtras", joinColumns = @JoinColumn(name = "archive_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "extra_id", referencedColumnName = "id"))
 	private List<Extra> extras;
-
 
 }

@@ -8,6 +8,10 @@ import org.springframework.http.MediaType;
 
 public class HttpEntityUtils {
 
+	private HttpEntityUtils() {
+
+	}
+
 	public static HttpEntity<Object> createHttpEntity(Map<String, String> headers) {
 		HttpHeaders requestHeaders = prepareRequestHeader(headers);
 		return new HttpEntity<>(requestHeaders);

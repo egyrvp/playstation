@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -48,6 +49,9 @@ public class Device implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	private Status status;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	private Store store;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
 	private User createdBy;

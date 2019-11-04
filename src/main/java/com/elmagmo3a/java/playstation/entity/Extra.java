@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -52,6 +53,9 @@ public class Extra implements Serializable {
 	private String name;
 	private Float price;
 
+	@OneToOne(fetch = FetchType.EAGER)
+	private Store store;
+	
 	@Enumerated(EnumType.STRING)
 	private Status status;
 

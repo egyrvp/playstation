@@ -14,25 +14,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.elmagmo3a.java.playstation.jwt.JwtTokenUtil;
 import com.elmagmo3a.java.playstation.model.CreateUserRequest;
-import com.elmagmo3a.java.playstation.service.UserService;
+import com.elmagmo3a.java.playstation.service.StoreService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/store")
 @Validated
-public class UserController {
+public class StoreController {
 
 	@Autowired
-	UserService userService;
+	StoreService storeService;
 
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
 
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/create")
-	public ResponseEntity createUser(@Valid @RequestBody CreateUserRequest createUserRequest,
+	public ResponseEntity createStore(@Valid @RequestBody CreateUserRequest createUserRequest,
 			@RequestHeader("token") String token, @RequestHeader("caller") String caller) {
 		Long storeId = jwtTokenUtil.getStoreIdFromToken(token);
-		return userService.createUser(createUserRequest, storeId, caller);
+		return storeService.createStore(createUserRequest, storeId, caller);
 	}
 
 }

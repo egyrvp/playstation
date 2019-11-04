@@ -15,6 +15,9 @@ import org.springframework.web.server.ResponseStatusException;
  */
 public class DateUtils {
 
+	private DateUtils() {
+	}
+
 	private static final ZoneId DEFAULT_ZONE_ID = ZoneId.systemDefault();
 
 	/**
@@ -88,7 +91,6 @@ public class DateUtils {
 		if (localDate == null) {
 			return null;
 		}
-//        return localDate.atStartOfDay().atZone(DEFAULT_ZONE_ID).toEpochSecond();
 		return localDate.toEpochDay();
 	}
 

@@ -9,9 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -36,7 +38,7 @@ public class User implements Serializable, UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	public enum Type {
-		ADMIN, SHIFTER
+		ADMIN, OWNER, SHIFTER
 	}
 
 	public enum Status {
@@ -58,6 +60,11 @@ public class User implements Serializable, UserDetails {
 	@Builder.Default
 	private Status status = Status.ACTIVE;
 
+	@OneToOne(fetch = FetchType.EAGER)
+	private Store store;
+
+	private String createdBy;
+	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
