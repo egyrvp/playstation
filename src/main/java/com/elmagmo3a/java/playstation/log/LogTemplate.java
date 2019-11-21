@@ -22,7 +22,9 @@ public interface LogTemplate {
 	String DELETE_X_END_WITH2 = "creating: {} ended with {} = {}  and  {} = {} ";
 
 	String GET_ALL_X_START = "start getting all {}";
-
 	String GET_ALL_X_END_WITH = "getting all {} end with {}";
+	
+	String GET_X_START_WITH = "start getting {} with {}";
+	String GET_X_END_WITH = "getting {} end with {}";
 
 }

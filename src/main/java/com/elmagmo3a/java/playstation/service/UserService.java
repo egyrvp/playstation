@@ -1,10 +1,13 @@
 package com.elmagmo3a.java.playstation.service;
 
+import javax.validation.constraints.NotNull;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.elmagmo3a.java.playstation.entity.Store;
@@ -17,8 +20,10 @@ import com.elmagmo3a.java.playstation.repository.UserRepository;
 import com.elmagmo3a.java.playstation.util.MessageKey;
 import com.elmagmo3a.java.playstation.util.MessageResolver;
 import com.elmagmo3a.java.playstation.validation.StoreValidator;
+import com.elmagmo3a.java.playstation.validation.UserValidator;
 
 @Service
+@Validated
 public class UserService {
 
 	@Log
@@ -54,6 +59,14 @@ public class UserService {
 		userRepository.save(user);
 		logger.info(LogTemplate.CREATE_X_END, "User");
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	public User getUserById(@NotNull Long id) {
+		logger.info(LogTemplate.GET_X_START_WITH, "User", id);
+		User user = userRepository.findById(id).orElse(null);
+		UserValidator.checkActiveUserExistence(user);
+		logger.info(LogTemplate.GET_X_END_WITH, "User", id);
+		return user;
 	}
 
 }
